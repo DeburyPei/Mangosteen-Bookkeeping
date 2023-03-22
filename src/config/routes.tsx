@@ -5,7 +5,9 @@ import { Third } from "../components/welcome/third";
 import { Bar } from "../views/Bar";
 import { Foo } from "../views/Foo";
 import {Welcome} from "../views/Welcome"
-export const routes = [
+import {RouteRecordRaw} from "vue-router"
+
+export const routes :RouteRecordRaw[] = [
     { path: '/', component: Foo },
     { path: '/about', component: Bar },
     {
