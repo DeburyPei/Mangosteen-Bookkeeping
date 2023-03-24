@@ -1,5 +1,5 @@
-import { defineComponent, Transition } from "vue";
-import { RouterView } from "vue-router";
+import { defineComponent, Transition ,VNode} from "vue";
+import { RouterView ,RouteLocationNormalizedLoaded} from "vue-router";
 import s from "./Welcome.module.scss";
 import logo from "../assets/svg/mangosteen.svg";
 // console.log(logo) /src/assets/svg/logo.svg
@@ -13,8 +13,24 @@ export const Welcome = defineComponent({
         </header>
         <main class={s.main}>
           <RouterView name="main">
-            {/* 这个RouterView的第二种写法 获取里面传入的组件 */}
-            {(obj: any) => <Transition name="slide_fade"><obj.Component /></Transition> }
+            
+            {/* {({ Component:X, route:R, }: {Component: VNode,route: RouteLocationNormalizedLoaded}) => 
+                <Transition 
+                    enterFromClass={s.slide_fade_enter_from}
+                    enterActiveClass={s.slide_fade_enter_active}
+                    leaveToClass={s.slide_fade_leave_to}
+                    leaveActiveClass={s.slide_fade_leave_active}
+                >
+                    {X}
+                </Transition>
+                
+            }  */}
+             {({ Component: X, route: R }: { Component: VNode, route: RouteLocationNormalizedLoaded }) =>
+            <Transition enterFromClass={s.slide_fade_enter_from} enterActiveClass={s.slide_fade_enter_active}
+              leaveToClass={s.slide_fade_leave_to} leaveActiveClass={s.slide_fade_leave_active}>
+              {X}
+            </Transition>
+          }
           </RouterView>
         </main>
         <footer>
