@@ -18,6 +18,10 @@ export const routes :RouteRecordRaw[] = [
          { path: '2', component: Second },
          { path: '3', component: Third },
          { path: '4', component: Forth },
+        //  { path: '1', components:{main:First,foorer:FirstActions}  },
+        //  { path: '2', components:{main:Second,foorer:SecondActions} },
+        //  { path: '3', components:{main:Third,foorer:ThirdActions} },
+        //  { path: '4', components:{main:Forth,foorer:ForthActions} },
         ]
     }
   ]
