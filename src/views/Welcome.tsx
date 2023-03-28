@@ -6,7 +6,7 @@ import { useSwipe } from "../hooks/useSwipe";
 // console.log(logo) /src/assets/svg/logo.svg
 export const Welcome = defineComponent({
   setup(props, context) {
-    const main = ref<HTMLElement | null>(null)  // 定义类别
+    const main = ref<HTMLElement | undefined>()  // 定义类别
     const {direction , swiping } = useSwipe(main) 
     watchEffect(()=>{
         console.log(swiping.value,direction.value)
@@ -22,17 +22,7 @@ export const Welcome = defineComponent({
         <main class={s.main} ref={main}>
           <RouterView name="main">
             
-            {/* {({ Component:X, route:R, }: {Component: VNode,route: RouteLocationNormalizedLoaded}) => 
-                <Transition 
-                    enterFromClass={s.slide_fade_enter_from}
-                    enterActiveClass={s.slide_fade_enter_active}
-                    leaveToClass={s.slide_fade_leave_to}
-                    leaveActiveClass={s.slide_fade_leave_active}
-                >
-                    {X}
-                </Transition>
-                
-            }  */}
+           
              {({ Component: X, route: R }: { Component: VNode, route: RouteLocationNormalizedLoaded }) =>
             <Transition enterFromClass={s.slide_fade_enter_from} enterActiveClass={s.slide_fade_enter_active}
               leaveToClass={s.slide_fade_leave_to} leaveActiveClass={s.slide_fade_leave_active}>
