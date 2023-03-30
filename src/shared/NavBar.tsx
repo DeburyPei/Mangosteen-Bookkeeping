@@ -14,7 +14,7 @@ export const NavBar = defineComponent({
                 {slots.icon?.()}
             </span>
             <span class={s.title_wrapper}>
-                {slots.default?.()}
+                {slots.title?.()}
             </span>
 
          </div>
