@@ -4,6 +4,7 @@ import s from "./Icon.module.scss";
 export type IconName = 'add' | 'chart' | 'clock' | 'cloud' |
   'mangosteen' | 'pig' | 'menu' | 'charts' | 'notify' | 'export'
 
+ 
 export const Icon = defineComponent({
     props:{
         name:{
@@ -16,6 +17,8 @@ export const Icon = defineComponent({
     },
     setup:(props,context)=>{
     
+
+    // console.log('icon',props.onClick)
     return () => (
          <svg class={s.icon} onClick={props.onClick}>
             <use xlinkHref={'#'+props.name}></use>
