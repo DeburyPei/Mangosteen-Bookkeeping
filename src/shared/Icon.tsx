@@ -2,7 +2,7 @@ import { defineComponent,PropType,ref } from "vue";
 import s from "./Icon.module.scss";
 
 export type IconName = 'add' | 'chart' | 'clock' | 'cloud' |
-  'mangosteen' | 'pig' | 'menu' | 'charts' | 'notify' | 'export' | 'left'
+  'mangosteen' | 'pig' | 'menu' | 'charts' | 'notify' | 'export' | 'left' | 'date'
 
  
 export const Icon = defineComponent({
