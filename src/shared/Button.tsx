@@ -1,9 +1,10 @@
-import { defineComponent,ref } from "vue";
+import { defineComponent,PropType,ref } from "vue";
 import s from "./Button.module.scss";
 
 // StartPage 直接收onClick事件 不会报错
 interface Props{
-    onClick: (e: MouseEvent) => void
+    onClick: (e: MouseEvent) => void,
+    
 }
 export const Button = defineComponent<Props>({
     // inheritAttrs:true,
