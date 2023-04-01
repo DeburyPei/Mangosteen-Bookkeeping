@@ -78,8 +78,8 @@
       }
       &:nth-child(13) {
         grid-area: s;
-        background: var(--button-bg-important);
-        color: var(--button-text-important);
+        background: var(--number-button-bg-important);
+        color: var(--number-button-text-important);
       }
    }
 }
