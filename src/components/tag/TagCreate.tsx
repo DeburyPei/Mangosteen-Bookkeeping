@@ -35,7 +35,7 @@ export const TagCreate = defineComponent({
             title:() => '新建标签',
             icon:()=> <Icon name="left" onClick={()=>{}}></Icon>,
             default:()=>(
-                    <form class={s.form}>
+                    <form class={s.form} onSubmit={onSubmit}>
                         <div class={s.formRow}>
                             <label class={s.formLabel}>
                                     <span class={s.formItem_name}>标签名</span>
