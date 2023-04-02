@@ -16,6 +16,7 @@ export const TagCreate = defineComponent({
         name:'',
         sign:'\u{1F600}'
     })
+    const onSubmit = (e:Event) => {
     console.log(toRaw(formData))
     const rules = [
         {key:'name',required:true,message:'必填'},
@@ -27,6 +28,8 @@ export const TagCreate = defineComponent({
     //     name:['错误1','错误2'],
     //     sign:['错误3','错误4']
     // }
+    e.preventDefault()
+    }
     return () => (
          <MainLayout>{{
             title:() => '新建标签',
