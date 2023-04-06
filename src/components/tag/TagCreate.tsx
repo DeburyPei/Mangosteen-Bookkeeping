@@ -36,7 +36,7 @@ export const TagCreate = defineComponent({
         sign: undefined,
       });
       Object.assign(errors, validate(formData, rules));
-      console.log(errors)
+     
       e.preventDefault();
     };
 

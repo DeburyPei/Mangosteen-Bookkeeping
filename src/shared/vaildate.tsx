@@ -24,7 +24,7 @@ interface FData {
           if (value === null || value === undefined || value === '') {
             errors[key] = errors[key] ?? []
             errors[key]?.push(message)
-            console.log('required',errors)
+           
 
           }
           break;
@@ -32,7 +32,7 @@ interface FData {
           if (value && !rule.regex.test(value.toString())) {
             errors[key] = errors[key] ?? []
             errors[key]?.push(message)
-            console.log('pattern',errors)
+           
           }
           break;
         default:
