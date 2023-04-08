@@ -18,7 +18,7 @@ interface FData {
     rules.map(rule => {
       const { key, type, message } = rule
       const value = formData[key]
-      console.log(rule,value)
+      // console.log(rule,value)
       switch (type) {
         case 'required':
           if (value === null || value === undefined || value === '') {
