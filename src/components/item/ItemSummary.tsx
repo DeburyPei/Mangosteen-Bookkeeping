@@ -3,7 +3,7 @@ import { FloatButton } from "../../shared/FloatButton";
 import s from "./ItemSummary.module.scss";
 export const ItemSummary = defineComponent({
   props: {
-    satrtDate: {
+    startDate: {
       type: String as PropType<string>,
       required: true,
     },
