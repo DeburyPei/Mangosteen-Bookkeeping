@@ -17,6 +17,7 @@ export const Tabs = defineComponent({
 
     // }
   },
+  emits: ['update:selected'],
   setup: (props, context) => {
     return () => {
       const array = context.slots.default?.();
@@ -28,7 +29,6 @@ export const Tabs = defineComponent({
       });
       const cp = props.classPrefix
       return <div class={[s.tabs,cp+"_tabs"]}>
-                  
                     <ol class={[s.tabs_nav,cp+"_tabs_nav"]}>
                         {array.map(item => <li class={[
                           item.props?.name === props.selected ? [s.selected,cp + "_selected"] : '',

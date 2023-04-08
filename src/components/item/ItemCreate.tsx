@@ -68,7 +68,7 @@ export const ItemCreate = defineComponent({
             <>
             <div class={s.wrapper}>
               {/* <Tabs  selected={refKind.value} onUpdateSelected={onUpdateSelected}> */}
-              <Tabs v-model:selected={refKind.value} class={s.tabs}>
+              <Tabs v-model:selected={refKind.value} class={s.tabs} onUpdate:selected={()=>console.log(1)}>
                 <Tab name="支出" class={s.tags_wrapper}>
                   <div class={s.tag}>
                     <div class={s.sign}>
