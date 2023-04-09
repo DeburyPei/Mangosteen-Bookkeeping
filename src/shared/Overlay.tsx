@@ -21,7 +21,10 @@ export const Overlay = defineComponent({
         <div class={s.overlay}>
           <section class={s.currentUser} onClick={onClickSignIn}>
             <h2>未登录的用户</h2>
-            <p>点击这里登陆</p>
+            <RouterLink to='/sign_in'>
+             <p>点击这里登陆</p>
+            </RouterLink>
+            
           </section>
           <nav>
             <ul class={s.action_list}>
