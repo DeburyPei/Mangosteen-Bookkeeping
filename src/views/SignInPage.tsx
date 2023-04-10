@@ -14,6 +14,7 @@ export const SignInPage = defineComponent({
     },
 
     setup:(props,context)=>{
+    const refValidationCode = ref<any>()
     const formData = reactive({
         email:'',
         code:''
@@ -35,8 +36,10 @@ export const SignInPage = defineComponent({
     const onClickSendValidationCode = async ()=>{
         const response = await axios.post('/api/v1/validation_codes',{
             email:formData.email,
-        })
-        console.log(response)
+        }).then(res => {
+            refValidationCode.value.startCount()
+        }  )
+        
       }
     return () => (
          <MainLayout>{{
@@ -59,6 +62,7 @@ export const SignInPage = defineComponent({
                     error={errors.code?.[0]}
                     onClick={onClickSendValidationCode}
                     countFrom={60}
+                    ref={refValidationCode}
                     />
                     <FormItem style={{ paddingTop: '96px' }} >
                         <Button type="submit">登录</Button>
