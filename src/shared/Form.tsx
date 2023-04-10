@@ -1,3 +1,4 @@
+import { time } from "echarts";
 import { DatetimePicker, Popup } from "vant";
 import { computed, defineComponent, PropType, ref } from "vue";
 import { Button } from "./Button";
@@ -37,10 +38,28 @@ export const FormItem = defineComponent({
     },
     placeholder: String,
     options: Array as PropType<Array<{ value: string; text: string }>>,
-    onClick:Function as PropType<()=> void >
+    onClick:Function as PropType<()=> void >,
+    countFrom: {
+      type: Number,
+      default: 60
+    }
   },
   setup: (props, context) => {
     const refDateVisible = ref(false);
+    const timer = ref<number>()
+    const count = ref<number>(props.countFrom)
+    const isCounting = computed(()=> !! timer.value)
+    const onClickSendValidationCode = () => {
+      props.onClick?.()   // 先运行传过来的函数
+      timer.value = setInterval(()=>{
+        count.value -- 
+        if(count.value === 0){
+          clearInterval(timer.value)
+          timer.value = undefined
+          count.value = props.countFrom
+        }
+      },1000)
+    }
     const content = computed(() => {
       switch (props.type) {
         case "text":
@@ -115,9 +134,10 @@ export const FormItem = defineComponent({
                   context.emit("update:modelValue", e.target.value)
                 }
               />
-              <Button class={[s.formItem, s.button, s.validationCodeButton]}
-               onClick={props.onClick}>
-                发送验证码
+              <Button disabled={isCounting.value} 
+              class={[s.formItem, s.button, s.validationCodeButton]}
+               onClick={onClickSendValidationCode}>
+                {isCounting.value ? count.value : "发送验证码"}
               </Button>
             </>
           );
