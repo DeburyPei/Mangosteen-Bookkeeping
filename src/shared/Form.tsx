@@ -37,6 +37,7 @@ export const FormItem = defineComponent({
     },
     placeholder: String,
     options: Array as PropType<Array<{ value: string; text: string }>>,
+    onClick:Function as PropType<()=> void >
   },
   setup: (props, context) => {
     const refDateVisible = ref(false);
@@ -114,7 +115,8 @@ export const FormItem = defineComponent({
                   context.emit("update:modelValue", e.target.value)
                 }
               />
-              <Button class={[s.formItem, s.button, s.validationCodeButton]}>
+              <Button class={[s.formItem, s.button, s.validationCodeButton]}
+               onClick={props.onClick}>
                 发送验证码
               </Button>
             </>
