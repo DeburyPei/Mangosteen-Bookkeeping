@@ -7,6 +7,7 @@ import { validate } from "../shared/vaildate";
 import s from "./SignInPage.module.scss";
 
 import { http } from "../shared/Http";
+import { useBool } from "../hooks/useBool";
 export const SignInPage = defineComponent({
     props:{
        name:{
@@ -15,9 +16,10 @@ export const SignInPage = defineComponent({
     },
 
     setup:(props,context)=>{
+    const { ref: refDisabled, toggle, on: disabled, off: enable } = useBool(false)
     const refValidationCode = ref<any>()
     const formData = reactive({
-        email:'',
+        email:'157836830@qq.com',
         code:''
     })
     const errors = reactive({
@@ -41,10 +43,14 @@ export const SignInPage = defineComponent({
         throw Error
     }
     const onClickSendValidationCode = async ()=>{
+        disabled()
         const response = await http.post('/validation_codes',{
             email:formData.email,
-        }).catch(onError)
-        refValidationCode.value.startCount()
+        }).then(() => {
+            refValidationCode.value.startCount()
+        }  ).catch(onError)
+        .finally(enable)
+       
       }
     
     return () => (
@@ -68,6 +74,7 @@ export const SignInPage = defineComponent({
                     error={errors.code?.[0]}
                     onClick={onClickSendValidationCode}
                     countFrom={60}
+                    disabled={refDisabled.value}
                     ref={refValidationCode}
                     />
                     <FormItem style={{ paddingTop: '96px' }} >

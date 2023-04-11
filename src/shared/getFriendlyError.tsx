@@ -3,5 +3,6 @@ const map: Record<string, string> = {
 };
 export const getFriendlyError = (error: string) => {
 //   console.log(error);
+  
   return map[error] || error;
 };

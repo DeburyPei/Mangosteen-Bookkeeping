@@ -43,9 +43,11 @@ export const FormItem = defineComponent({
     countFrom: {
       type: Number,
       default: 60
-    }
+    },
+    disabled:Boolean
   },
   setup: (props, context) => {
+    
     const refDateVisible = ref(false);
     const timer = ref<number>()
     const count = ref<number>(props.countFrom)
@@ -59,7 +61,9 @@ export const FormItem = defineComponent({
           count.value = props.countFrom
         }
       },1000)
+      
     }
+    
     context.expose({startCount})
     const content = computed(() => {
       switch (props.type) {
@@ -135,7 +139,7 @@ export const FormItem = defineComponent({
                   context.emit("update:modelValue", e.target.value)
                 }
               />
-              <Button disabled={isCounting.value} 
+              <Button disabled={isCounting.value || props.disabled} 
               class={[s.formItem, s.button, s.validationCodeButton]}
                onClick={ props.onClick}>
                 {isCounting.value ? count.value : "发送验证码"}
