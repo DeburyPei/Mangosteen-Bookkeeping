@@ -3,7 +3,7 @@ import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
 import { Icon } from "../shared/Icon";
-import { validate } from "../shared/vaildate";
+import { hasError, validate } from "../shared/vaildate";
 import s from "./SignInPage.module.scss";
 
 import { http } from "../shared/Http";
@@ -25,7 +25,7 @@ export const SignInPage = defineComponent({
     const errors = reactive({
         email:[],code:[]
     })
-    const onSubmit = (e:Event) =>{
+    const onSubmit = async (e:Event) =>{
         e.preventDefault()
         Object.assign(errors,{email:[],code:[]})
         Object.assign(errors,validate(formData,[
@@ -34,6 +34,9 @@ export const SignInPage = defineComponent({
             {key:'code',type:'required',message:'必填'}
 
         ]))
+        if(!hasError(errors)){
+            const response = await http.post('/session', formData)
+          }
         
     }
     const onError = (error:any) =>{
@@ -43,6 +46,13 @@ export const SignInPage = defineComponent({
         throw Error
     }
     const onClickSendValidationCode = async ()=>{
+        Object.assign(errors,{email:[],code:[]})
+        Object.assign(errors,validate(formData,[
+            {key:'email',type:'required',message:'必填'},
+            {key:'email',type:'pattern',regex:/.+@.+/,message:'必须是邮箱地址'},
+            {key:'code',type:'required',message:'必填'}
+
+        ]))
         disabled()
         const response = await http.post('/validation_codes',{
             email:formData.email,
