@@ -5,7 +5,7 @@ import { Form, FormItem } from "../shared/Form";
 import { Icon } from "../shared/Icon";
 import { hasError, validate } from "../shared/vaildate";
 import s from "./SignInPage.module.scss";
-
+import { history } from '../shared/history';
 import { http } from "../shared/Http";
 import { useBool } from "../hooks/useBool";
 export const SignInPage = defineComponent({
@@ -35,11 +35,20 @@ export const SignInPage = defineComponent({
 
         ]))
         if(!hasError(errors)){
-            const response = await http.post('/session', formData)
+            const response = await http.post<{jwt:string}>('/session', formData)
+                            .catch(onSubmitError)
+            localStorage.setItem('jwt',response.data.jwt)
+            history.push('/')
           }
         
     }
     const onError = (error:any) =>{
+        if(error.response.status === 422){
+            Object.assign(errors,error.response.data.errors)
+        }
+        throw Error
+    }
+    const onSubmitError = (error:any) =>{
         if(error.response.status === 422){
             Object.assign(errors,error.response.data.errors)
         }
