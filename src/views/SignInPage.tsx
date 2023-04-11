@@ -5,7 +5,8 @@ import { Form, FormItem } from "../shared/Form";
 import { Icon } from "../shared/Icon";
 import { validate } from "../shared/vaildate";
 import s from "./SignInPage.module.scss";
-import axios from 'axios';
+
+import { http } from "../shared/Http";
 export const SignInPage = defineComponent({
     props:{
        name:{
@@ -33,14 +34,19 @@ export const SignInPage = defineComponent({
         ]))
         
     }
+    const onError = (error:any) =>{
+        if(error.response.status === 422){
+            Object.assign(errors,error.response.data.errors)
+        }
+        throw Error
+    }
     const onClickSendValidationCode = async ()=>{
-        const response = await axios.post('/api/v1/validation_codes',{
+        const response = await http.post('/validation_codes',{
             email:formData.email,
-        }).then(res => {
-            refValidationCode.value.startCount()
-        }  )
-        
+        }).catch(onError)
+        refValidationCode.value.startCount()
       }
+    
     return () => (
          <MainLayout>{{
             title:()=>"登录",
