@@ -8,7 +8,7 @@ export let mePromise : Promise<AxiosResponse<{
 }>> | undefined
 
 export const refreshMe = () =>{
-    mePromise = http.get<{resource:{id:number}}>('/me')
+    mePromise = http.get<{resource:{id:number}}>('/me')  // 获取数据 {resource:{id:number}} 因为api返回这个类型
     return mePromise
 }
 
