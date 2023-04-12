@@ -28,7 +28,16 @@ export class Http {
 
 export const http = new Http('/api/v1')
 
-//拦截器
+// 拦截器 request
+http.instance.interceptors.request.use(config =>{  // config 配置相关所有信息
+    const jwt  = localStorage.getItem('jwt')
+    if(jwt){
+        config.headers!.Authorization = `Bearer ${jwt}`   // 在config中 Authorization 添加  `Bearer ${jwt}`  即可 每次请求就会触发
+    }
+    return config
+})
+
+//拦截器  response
 http.instance.interceptors.response.use(response=>{
   console.log('response')
   return response

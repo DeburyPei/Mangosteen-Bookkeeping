@@ -11,6 +11,7 @@ import { Second } from "../components/welcome/Second";
 import { SecondActions } from "../components/welcome/SecondActions";
 import { Third } from "../components/welcome/Third";
 import { ThirdActions } from "../components/welcome/ThirdActions";
+import { http } from "../shared/Http";
 import { ItemPage } from "../views/ItemPage";
 import { SignInPage } from "../views/SignInPage";
 import { StartPage } from "../views/StartPage";
@@ -24,6 +25,9 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/welcome",
     component: Welcome,
+    beforeEnter: (to, from, next) => {  // 路由这里添加守卫而不是全局添加
+      localStorage.getItem('skipFeatures') === 'yes' ? next('/start') : next() // 如果 yes 直接跳转 start  是 no 就是 按照原来
+    },
     children: [
       { path: "", redirect: "/welcome/1" },
       { path: "1", name:"Welcome1",components: { main: First, footer: FirstActions } },
@@ -36,6 +40,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path:"/item",
     component:ItemPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get('/me').catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
     children:[
       { path: "", component: ItemList },
       { path: "create", component:ItemCreate },
@@ -44,6 +54,12 @@ export const routes: RouteRecordRaw[] = [
   {
     path: "/tags", 
     component: TagPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get('/me').catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
     children:[
       { path: "create", component: TagCreate },
       { path: ":id/edit", component:TagEdit },
@@ -53,6 +69,12 @@ export const routes: RouteRecordRaw[] = [
     path:'/sign_in',component:SignInPage
   },
   {
-    path: '/statistics', component: StatisticsPage
+    path: '/statistics', component: StatisticsPage,
+    beforeEnter: async (to, from, next) => {
+      await http.get('/me').catch(() => {
+        next('/sign_in?return_to=' + to.path)
+      })
+      next()
+    },
   }
 ];
