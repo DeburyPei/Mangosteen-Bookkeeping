@@ -9,6 +9,7 @@ export let mePromise : Promise<AxiosResponse<{
 
 export const refreshMe = () =>{
     mePromise = http.get<{resource:{id:number}}>('/me')  // 获取数据 {resource:{id:number}} 因为api返回这个类型
+    // console.log(mePromise)
     return mePromise
 }
 
