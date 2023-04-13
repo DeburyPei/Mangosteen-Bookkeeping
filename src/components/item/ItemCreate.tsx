@@ -16,16 +16,31 @@ export const ItemCreate = defineComponent({
     const refKind = ref("支出");
     const refPage = ref(0)
     const refHasMore = ref(false)
+    const onLoadMore = async ()=>{
+      const response = await http.get<Resources<Tag>>('/tags', {
+        kind: 'expenses',
+        page:refPage.value + 1,
+        _mock: 'tagIndex'
+      })
+      const {resources,pager } = response.data
+      refExpensesTags.value.push(...resources)
+      refHasMore.value = (pager.page - 1) * pager.per_page +  // 之前页面打印 
+      resources.length < pager.count 
+      refPage.value += 1
+
+    }
     onMounted(async () => {
       const response = await http.get<Resources<Tag>>('/tags', {
         kind: 'expenses',
+       
         _mock: 'tagIndex'
       })
       const {resources,pager } = response.data
       refExpensesTags.value = resources
       refHasMore.value = (pager.page - 1) * pager.per_page +  // 之前页面打印 
       resources.length < pager.count                          // + 当前页面数量   小于 总数量 说明还有标签 refHasMore.value就是true
-      console.log(refHasMore.value);
+      refPage.value = 1
+      
       
       // refExpensesTags.value = response.data.resources
     })
@@ -65,7 +80,7 @@ export const ItemCreate = defineComponent({
                   ))}</div>
                   <div class={s.more}>
                       {refHasMore ? 
-                      <Button>加载更多</Button>
+                      <Button onClick={onLoadMore}>加载更多</Button>
                       : <span>没有更多</span>
                       }
 
