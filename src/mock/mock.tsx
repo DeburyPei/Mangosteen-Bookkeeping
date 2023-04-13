@@ -12,7 +12,7 @@ export const mockSession: Mock = (config) =>{
 }
 
 //创建假数据
-export const mockTagIndex: Mock = (config) => {
+export const mockTagIndex : Mock = (config) => {
     const {kind,page} = config.params
     const per_page = 25
     const count = 26
@@ -36,13 +36,15 @@ export const mockTagIndex: Mock = (config) => {
     const createBody = (n=1,attrs?:any)=>({
         resources:createTag(n),pager:createPaper(page)    })
 
-    if (config.params.kind === 'expenses' && (page === 1 || !page)) {
+    if (config.params.kind === 'expenses' && (!page || page === 1 )) {
       return [200, createBody(25)]
 
     } else if(kind ==='expenses' && page === 2){
         return [200, createBody(1)]
-    }else{
-      return [200, { resources: createTag(20) }]
+    }else if(config.params.kind === 'income' && (!page || page === 1 )){
+      return [200, createBody(25)]
+    }else if(kind ==='income' && page === 2){
+        return [200, createBody(1)]
     }
   
   }
