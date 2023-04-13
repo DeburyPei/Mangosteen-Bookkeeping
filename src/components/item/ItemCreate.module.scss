@@ -12,6 +12,7 @@
     flex-grow: 0;
     flex-shrink: 0;
   }
+  
   .tags_wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -46,4 +47,8 @@
         border-color: var(--main);
       }
     }
+  }
+  .more{
+    padding: 16px;
+    text-align: center;
   }

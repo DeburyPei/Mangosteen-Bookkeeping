@@ -14,3 +14,19 @@ type Tag = {
   kind: expenses | income
 }
 type JSONValue = null | boolean | string | number | JSONValue[] | Record<string, JSONValue>
+type Resources<T = any> = {
+  resources: T[]
+  pager: {
+    page: number,
+    per_page: number,
+    count: number
+  }
+}
+type Resources<T = any> = {
+  resources: T[]
+  pager: {
+    page: number,
+    per_page: number,
+    count: number
+  }
+}
