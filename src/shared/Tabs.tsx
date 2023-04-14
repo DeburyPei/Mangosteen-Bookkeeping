@@ -4,12 +4,12 @@ import { ItemList } from "../components/item/ItemList";
 import s from "./Tabs.module.scss";
 export const Tabs = defineComponent({
   props: {
-    classPrefix:{
-      type:String
+    classPrefix: {
+      type: String,
     },
     selected: {
       type: String as PropType<string>,
-      required:false
+      required: false,
     },
     // onUpdateSelected:{
     //     type: Function as PropType<(name:string)=>void>,
@@ -17,7 +17,7 @@ export const Tabs = defineComponent({
 
     // }
   },
-  emits: ['update:selected'],
+  emits: ["update:selected"],
   setup: (props, context) => {
     return () => {
       const array = context.slots.default?.();
@@ -27,21 +27,33 @@ export const Tabs = defineComponent({
           throw new Error("<Tabs> only accept <Tab> as children");
         }
       });
-      const cp = props.classPrefix
-      return <div class={[s.tabs,cp+"_tabs"]}>
-                    <ol class={[s.tabs_nav,cp+"_tabs_nav"]}>
-                        {array.map(item => <li class={[
-                          item.props?.name === props.selected ? [s.selected,cp + "_selected"] : '',
-                          cp + '_tabs_nav_item'
-                        ]}
-                            onClick={()=>context.emit('update:selected',item.props?.name)}
-                        >
-                            {item.props?.name}</li>)}
-                    </ol>
-                <div>
-                    {array.find(item=>item.props?.name === props.selected)}
-                </div>
+      const cp = props.classPrefix;
+      return (
+        <div class={[s.tabs, cp + "_tabs"]}>
+          <ol class={[s.tabs_nav, cp + "_tabs_nav"]}>
+            {array.map((item) => (
+              <li
+                class={[
+                  item.props?.name === props.selected
+                    ? [s.selected, cp + "_selected"]
+                    : "",
+                  cp + "_tabs_nav_item",
+                ]}
+                onClick={() =>
+                  context.emit("update:selected", item.props?.name)
+                }
+              >
+                {item.props?.name}
+              </li>
+            ))}
+          </ol>
+          <div>
+            {array.map((item) => (
+              <div v-show={item.props?.name === props.selected}>{item}</div>
+            ))}
+          </div>
         </div>
+      );
     };
   },
 });

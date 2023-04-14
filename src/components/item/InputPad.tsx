@@ -4,10 +4,14 @@ import { Time } from "../../shared/time";
 import { DatetimePicker,Popup } from 'vant';
 import s from "./InputPad.module.scss";
 export const InputPad = defineComponent({
+  props:{
+    happenAt: String,
+    amount: Number
+  },
   setup: (props, context) => {
     const now = new Date();
     const refDate = ref<Date>(now)
-    const refAmount = ref('0')
+  
     const appendText = (n:number|string) =>{
       // console.log()
       const nString = n.toString()
@@ -48,22 +52,27 @@ export const InputPad = defineComponent({
       { text: '.', onClick: () => { appendText('.') } },
       { text: '0', onClick: () => { appendText(0) } },
       { text: '清空', onClick: () => { refAmount.value = '0' } },
-      { text: '提交', onClick: () => { } },
+      { text: '提交', onClick: () => context.emit('update:amount',parseFloat(refAmount.value)*100) },
     ]
 
     const refDatePickerVisible = ref(false)
     const showDatePicker = () => refDatePickerVisible.value = true
     const hideDatePicker = () => refDatePickerVisible.value = false
-    const setDate = (date:Date) => {refDate.value = date;hideDatePicker()}
+    const setDate = (date:Date) => {
+      context.emit('update:happenAt',date.toISOString())
+      hideDatePicker()
+      // refDate.value = date;hideDatePicker()
+    }
+    const refAmount = ref(props.amount?(props.amount / 100).toString():'0')
     return () => (
       <>
         <div class={s.dateAndAmount}>
           <span class={s.date}>
             <Icon name="date" class={s.icon}></Icon>
             <span>
-              <span onClick={showDatePicker} >{new Time(refDate.value).format("YYYY-MM-DD")}</span>
+              <span onClick={showDatePicker} >{new Time(props.happenAt).format("YYYY-MM-DD")}</span>
               <Popup v-model:show={refDatePickerVisible.value}  position="bottom">
-                <DatetimePicker  v-model={refDate.value} type="date" title="选择年月"
+                <DatetimePicker  v-model={props.happenAt} type="date" title="选择年月"
                   onConfirm={setDate} onCancel={hideDatePicker}/>
                 </Popup>
             </span>
