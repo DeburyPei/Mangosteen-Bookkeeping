@@ -14,7 +14,8 @@ export const Tags = defineComponent({
   },
   emits:['update:selected'],
   setup: (props, context) => {
-    const { tags, hasMore, page, fetchTags } = useTags((page) => {
+    const { tags, hasMore, page, fetchTags } = useTags(
+        (page) => {   // 发请求获取数据的函数
       return http.get<Resources<Tag>>('/tags', {
         kind: props.kind,
         page: page + 1,

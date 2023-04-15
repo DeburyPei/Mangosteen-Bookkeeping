@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { AxiosRequestConfig } from 'axios';
 
+// [200, createBody(25)] = [number, any]
 type Mock = (config: AxiosRequestConfig) => [number, any]
 
 faker.setLocale('zh_CN');
@@ -10,12 +11,37 @@ export const mockSession: Mock = (config) =>{
     jwt: faker.random.word()
   }]
 }
+//全局为1  自动增长 不会收入跟支出id 有重复的
 let id = 0
 const createId = () => {
   id += 1
   return id
 }
+
+export const mockItemCreate : Mock = (config)=>{
+  // return [422,{
+  //   errors:{
+  //     tags_id:["必须选择标签"],
+  //     amount:['金额不能为0']
+  //   }
+  // }]
+  return [200, {
+    resource: {
+      "id": 2264,
+      "user_id": 1312,
+      "amount": 9900,
+      "note": null,
+      "tags_id": [3508],
+      "happen_at": "2020-10-29T16:00:00.000Z",
+      "created_at": "2022-07-03T15:35:56.301Z",
+      "updated_at": "2022-07-03T15:35:56.301Z",
+      "kind": "expenses"
+    }
+  }]
+}
+
 //创建假数据
+
 export const mockTagIndex : Mock = (config) => {
     const {kind,page} = config.params
     const per_page = 25
