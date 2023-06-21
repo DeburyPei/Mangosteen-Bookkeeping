@@ -28,9 +28,13 @@ const demo = defineComponent({
     setup:(props,context)=>{
     const refSelected = ref('本月')
     const time = new Time()
-    const customTime = reactive({
-      start: new Time().format(),
-      end: new Time().format()
+    const customTime = reactive<{
+      start?:string,
+      end?:string,
+
+    }>({
+      // start: new Time().format(),
+      // end: new Time().format()
     })
     const timeList = [
       {
