@@ -11,6 +11,10 @@ export const Tabs = defineComponent({
       type: String as PropType<string>,
       required: false,
     },
+    rerenderOnSelect: {
+      type: Boolean as PropType<boolean>,
+      default: false
+    }
     // onUpdateSelected:{
     //     type: Function as PropType<(name:string)=>void>,
     //   required:false
@@ -47,12 +51,17 @@ export const Tabs = defineComponent({
               </li>
             ))}
           </ol>
+          {props.rerenderOnSelect ?
+          <div key={props.selected}>
+            {array.find(item=>item.props?.name === props.selected)}
+          </div>:
           <div>
+            
             {array.map((item) => (
               <div v-show={item.props?.name === props.selected}>{item}</div>
             ))}
           </div>
-        </div>
+          }</div>
       );
     };
   },
