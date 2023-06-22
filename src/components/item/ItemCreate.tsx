@@ -39,9 +39,10 @@ export const ItemCreate = defineComponent({
       throw error
     }
     const onSubmit =async () => {
-        await http.post<Resources<Item>>('/items',formData,{
-          params:{_mock:'itemCreate'}
-        }).catch(onError)  // 先通过mock 会拿到mock中的假数据
+      
+        await http.post<Resource<Item>>('/items', formData, 
+        { _mock: 'itemCreate' , _autoLoading: true})
+        .catch(onError)  // 先通过mock 会拿到mock中的假数据
         router.push("/item")
     }
     return () => (
