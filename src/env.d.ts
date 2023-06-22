@@ -6,13 +6,7 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
-type Tag = {
-  id: number;
-  user_id: number;
-  name: string;
-  sign: string;
-  kind: expenses | income;
-};
+
 type JSONValue =
   | null
   | boolean
@@ -20,6 +14,28 @@ type JSONValue =
   | number
   | JSONValue[]
   | Record<string, JSONValue>;
+
+type Tag = {
+  id: number;
+  user_id: number;
+  name: string;
+  sign: string;
+  kind: 'expenses' | 'income';
+};
+type Item = {
+  id: number;
+  user_id: number;
+  amount: number;
+  tag_ids: number[];
+  tags?: Tag[],
+  happen_at: string;
+  kind: 'expenses' | 'income';
+};
+type User = {
+  id: number;
+  email: string;
+}
+
 type Resources<T = any> = {
   resources: T[];
   pager: {
@@ -29,24 +45,6 @@ type Resources<T = any> = {
   };
 };
 
-declare module "*.scss" {
-  const content: Record<string, any> = {};
-  export default content;
-}
-type User = {
-  id:number,
-  email:string
-}
-type Item = {
-  id: number;
-  user_id: number;
-  amount: number;
-  tags_id: number[];
-  tags?: Tag[];
-  happen_at: string;
-  kind: expenses | income;
-};
-
 type Resource<T> = {
   resource: T;
 };
@@ -54,3 +52,5 @@ type Resource<T> = {
 type ResourceError = {
   errors: Record<string, string[]>;
 };
+
+type FormErrors<T> = {[K in keyof typeof T]: string[]}
