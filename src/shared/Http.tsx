@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession,mockTagEdit,mockTagIndex, mockTagShow } from "../mock/mock";
+import { mockItemCreate, mockItemIndex, mockItemIndexBalance, mockItemSummary, mockSession, mockTagEdit, mockTagIndex, mockTagShow } from "../mock/mock";
 
 type GetConfig = Omit<AxiosRequestConfig, 'params' | 'url' | 'method'>
 type PostConfig = Omit<AxiosRequestConfig, 'url' | 'data' | 'method'>
@@ -30,27 +30,22 @@ export class Http {
 const mock = (response: AxiosResponse) => {
   if (location.hostname !== 'localhost'
     && location.hostname !== '127.0.0.1'
-    && location.hostname !== '192.168.3.57') { return false }   // 只在开发模式 中使用mock 否则返回false
+    && location.hostname !== '192.168.3.57') { return false }
   switch (response.config?.params?._mock) {
     case 'tagIndex':
       [response.status, response.data] = mockTagIndex(response.config)
       return true
-    case 'itemCreate':
-      [response.status, response.data] = mockItemCreate(response.config)
-      return true
-    // case 'itemIndex':
-    //   [response.status, response.data] = mockItemIndex(response.config)
-    //   return true
-    // case 'tagCreate':
-    //   [response.status, response.data] = mockTagCreate(response.config)
     case 'session':
       [response.status, response.data] = mockSession(response.config)
       return true
-    case 'tagShow':
-      [response.status,response.data] = mockTagShow(response.config)
+    case 'itemCreate':
+      [response.status, response.data] = mockItemCreate(response.config)
       return true
     case 'tagShow':
-      [response.status,response.data] = mockTagEdit(response.config)
+      [response.status, response.data] = mockTagShow(response.config)
+      return true
+    case 'tagEdit':
+      [response.status, response.data] = mockTagEdit(response.config)
       return true
     case 'itemIndex':
       [response.status, response.data] = mockItemIndex(response.config)
@@ -59,8 +54,8 @@ const mock = (response: AxiosResponse) => {
       [response.status, response.data] = mockItemIndexBalance(response.config)
       return true
     case 'itemSummary':
-    [response.status, response.data] = mockItemSummary(response.config)
-    return true
+      [response.status, response.data] = mockItemSummary(response.config)
+      return true
   }
   return false
 }
@@ -76,13 +71,13 @@ http.instance.interceptors.request.use(config => {
 })
 
 http.instance.interceptors.response.use((response) => {
-  mock(response)   // 返回false 就返回下面的原来的 response 
-  if(response.status >= 400 ){
-    throw {response}
-  }else{
+  mock(response)
+  if (response.status >= 400) {
+    throw { response }
+  } else {
     return response
   }
-}, (error) => {     //  mock 失效
+}, (error) => {
   mock(error.response)
   if (error.response.status >= 400) {
     throw error
@@ -90,7 +85,6 @@ http.instance.interceptors.response.use((response) => {
     return error.response
   }
 })
-
 http.instance.interceptors.response.use(
   response => { return response },
   error => {
@@ -103,4 +97,3 @@ http.instance.interceptors.response.use(
     throw error
   }
 )
-

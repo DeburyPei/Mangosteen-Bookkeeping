@@ -1,8 +1,8 @@
-import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
-import s from './LineChart.module.scss';
-import * as echarts from 'echarts';
-import { Time } from '../../shared/time';
-import { getMoney } from '../../shared/Money';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue'
+import s from './LineChart.module.scss'
+import * as echarts from 'echarts'
+import { Time } from '../../shared/time'
+import { getMoney } from '../../shared/Money'
 
 const echartsOption = {
   tooltip: {
@@ -38,41 +38,47 @@ const echartsOption = {
     },
   },
 }
+
 export const LineChart = defineComponent({
   props: {
     data: {
       type: Array as PropType<[string, number][]>,
       required: true,
-    }
+    },
   },
   setup: (props, context) => {
-    const refChart = ref<echarts.ECharts>()
-
     const refDiv = ref<HTMLDivElement>()
-    onMounted(() => {
-      if (refDiv.value === undefined) { return }
-      // 基于准备好的dom，初始化echarts实例
-      refChart.value = echarts.init(refDiv.value);
-      // 绘制图表
-      refChart.value.setOption({
-        ...echartsOption,
-        series: [{
-          data: props.data,
-          type: 'line'
-        }]
-      });
+    let chart: echarts.ECharts | undefined = undefined
 
-    })
-     
-    watch(()=>props.data, ()=>{
-      refChart.value?.setOption({
-        series: [{
-          data: props.data
-        }]
+    onMounted(() => {
+      if (refDiv.value === undefined) {
+        return
+      }
+      // 基于准备好的dom，初始化echarts实例
+      chart = echarts.init(refDiv.value)
+      // 绘制图表
+      chart.setOption({
+        ...echartsOption,
+        series: [
+          {
+            data: props.data,
+            type: 'line',
+          },
+        ],
       })
     })
-    return () => (
-      <div ref={refDiv} class={s.wrapper}></div>
+    watch(
+      () => props.data,
+      () => {
+        chart?.setOption({
+          series: [
+            {
+              data: props.data,
+            },
+          ],
+        })
+      }
     )
-  }
+    return () => <div ref={refDiv} class={s.wrapper}></div>
+  },
 })
