@@ -33,7 +33,10 @@ declare module "*.scss" {
   const content: Record<string, any> = {};
   export default content;
 }
-
+type User = {
+  id:number,
+  email:string
+}
 type Item = {
   id: number;
   user_id: number;
