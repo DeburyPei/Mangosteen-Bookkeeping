@@ -1,16 +1,15 @@
-import { defineComponent,PropType,ref } from "vue";
-import { RouterLink } from "vue-router";
-
+import { defineComponent, PropType } from 'vue';
+import { RouteLocationRaw, RouterLink } from 'vue-router';
+import s from './SkipFeatures.module.scss';
 export const SkipFeature = defineComponent({
-    
-    setup:(props,context)=>{
-    const onClick = () =>{
-        localStorage.setItem('skipFeatures','yes')
+  setup: (props, context) => {
+    const onClick = () => {
+      localStorage.setItem('skipFeatures', 'yes')
     }
     return () => (
-         <span onClick={onClick} >
-            <RouterLink to="/start">跳过</RouterLink>
-         </span>
-      )
-    }
+      <span onClick={onClick}>
+        <RouterLink to="/items">跳过</RouterLink>
+      </span>
+    )
+  }
 })

@@ -26,7 +26,7 @@ export const routes: RouteRecordRaw[] = [
     path: "/welcome",
     component: Welcome,
     beforeEnter: (to, from, next) => {  // 路由这里添加守卫而不是全局添加
-      localStorage.getItem('skipFeatures') === 'yes' ? next('/start') : next() // 如果 yes 直接跳转 start  是 no 就是 按照原来
+      localStorage.getItem('skipFeatures') === 'yes' ? next('/items') : next() // 如果 yes 直接跳转 start  是 no 就是 按照原来
     },
     children: [
       { path: "", redirect: "/welcome/1" },

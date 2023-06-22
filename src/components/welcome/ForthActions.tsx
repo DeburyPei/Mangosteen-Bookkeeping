@@ -12,7 +12,7 @@ export const ForthActions :FunctionalComponent = (props,context)=>{
     
     return <div class={s.actions}>
              <SkipFeature class={s.fake} />
-              <RouterLink to="/start">
+              <RouterLink to="/items">
                 <span onClick={onClick}>
                     完成
                 </span>
