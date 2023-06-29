@@ -10,6 +10,7 @@ import { http } from "../shared/Http";
 import { useBool } from "../hooks/useBool";
 import { useRoute, useRouter } from "vue-router";
 import { refreshMe } from "../shared/me";
+import { useMeStore } from '../stores/useMeStore';
 import { BackIcon } from "../shared/BackIcon";
 export const SignInPage = defineComponent({
     props:{
@@ -19,6 +20,7 @@ export const SignInPage = defineComponent({
     },
 
     setup:(props,context)=>{
+        const meStore = useMeStore()
     const { ref: refDisabled, toggle, on: disabled, off: enable } = useBool(false)
     const refValidationCode = ref<any>()
     const router = useRouter()
@@ -47,7 +49,7 @@ export const SignInPage = defineComponent({
             localStorage.setItem('jwt',response.data.jwt)
             // router.push('/sign_in?return_to='+encodeURIComponent(route.fullPath)) //路由中添加return_to 
             const returnTo = route.query.return_to?.toString()
-            refreshMe()   // 登录这里就获取 /me数据 如果返回正确就
+            meStore.refreshMe()   // 登录这里就获取 /me数据 如果返回正确就
             router.push( returnTo || '/')
           }
         

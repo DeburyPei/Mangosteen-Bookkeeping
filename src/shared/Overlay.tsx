@@ -4,6 +4,7 @@ import { Icon } from "./Icon";
 import { RouterLink, useRoute } from "vue-router";
 import { mePromise } from "./me";
 import { Dialog } from "vant";
+import { useMeStore } from "../stores/useMeStore";
 export const Overlay = defineComponent({
   props: {
     onClose: {
@@ -11,6 +12,7 @@ export const Overlay = defineComponent({
     },
   },
   setup: (props, context) => {
+    const meStore = useMeStore()
     const close = () => {
       //传入 的 onClose是个函数 需要 执行
       props.onClose?.();
@@ -18,7 +20,7 @@ export const Overlay = defineComponent({
     const route = useRoute()
     const me = ref<User>()
     onMounted(async ()=>{
-      const response = await mePromise
+      const response = await meStore.mePromise
       me.value = response?.data.resource
     })
     const onClickSignIn = () => {};
