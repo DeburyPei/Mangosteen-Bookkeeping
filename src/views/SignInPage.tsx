@@ -9,7 +9,7 @@ import { history } from '../shared/history';
 import { http } from "../shared/Http";
 import { useBool } from "../hooks/useBool";
 import { useRoute, useRouter } from "vue-router";
-import { refreshMe } from "../shared/me";
+
 import { useMeStore } from '../stores/useMeStore';
 import { BackIcon } from "../shared/BackIcon";
 export const SignInPage = defineComponent({
@@ -20,7 +20,7 @@ export const SignInPage = defineComponent({
     },
 
     setup:(props,context)=>{
-        const meStore = useMeStore()
+    const meStore = useMeStore()
     const { ref: refDisabled, toggle, on: disabled, off: enable } = useBool(false)
     const refValidationCode = ref<any>()
     const router = useRouter()
